@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commit Partnership | Dashboard Demo Hub</title>
+  <style>
+    :root {
+      --commit-navy: #17233f;
+      --commit-blue: #2563eb;
+      --commit-sky: #dbeafe;
+      --commit-teal: #0f766e;
+      --commit-green: #16a34a;
+      --commit-amber: #f59e0b;
+      --commit-red: #dc2626;
+      --commit-purple: #7c3aed;
+      --commit-gray-50: #f8fafc;
+      --commit-gray-100: #f1f5f9;
+      --commit-gray-200: #e2e8f0;
+      --commit-gray-500: #64748b;
+      --commit-gray-700: #334155;
+      --commit-white: #ffffff;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+      --shadow-card: 0 12px 28px rgba(15, 23, 42, 0.08);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--commit-navy);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.14), transparent 32%),
+        linear-gradient(135deg, #f8fafc 0%, #eef4ff 46%, #f8fafc 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 34px 0 54px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 34px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--commit-blue), var(--commit-purple));
+      color: var(--commit-white);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      box-shadow: var(--shadow-card);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--commit-gray-500);
+      font-size: 0.82rem;
+      margin-top: 2px;
+    }
+
+    .topbar-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--commit-gray-700);
+      font-size: 0.82rem;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--commit-green);
+      box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.12);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+      padding: 46px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -70px;
+      top: -90px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.12));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--commit-sky);
+      color: #1d4ed8;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(2.35rem, 6vw, 4.95rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+    }
+
+    .hero-summary {
+      max-width: 690px;
+      margin: 22px 0 0;
+      color: var(--commit-gray-700);
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      font-weight: 760;
+      font-size: 0.95rem;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+    }
+
+    .button-primary {
+      background: var(--commit-navy);
+      color: var(--commit-white);
+    }
+
+    .button-secondary {
+      background: var(--commit-white);
+      color: var(--commit-navy);
+      border: 1px solid var(--commit-gray-200);
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .metric-card span {
+      color: var(--commit-gray-500);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.75rem;
+      letter-spacing: -0.05em;
+    }
+
+    .metric-card p {
+      margin: 7px 0 0;
+      color: var(--commit-gray-700);
+      line-height: 1.45;
+      font-size: 0.9rem;
+    }
+
+    .section-header {
+      margin: 38px 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      letter-spacing: -0.05em;
+    }
+
+    .section-header p {
+      margin: 7px 0 0;
+      max-width: 680px;
+      color: var(--commit-gray-500);
+      line-height: 1.5;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .demo-card.featured {
+      grid-column: span 2;
+      min-height: 250px;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.16), transparent 34%),
+        rgba(255, 255, 255, 0.9);
+    }
+
+    .demo-card.future {
+      background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.18), transparent 34%),
+        rgba(255, 255, 255, 0.9);
+      border-color: rgba(245, 158, 11, 0.28);
+    }
+
+    .supporting-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .relationship-note {
+      margin: 18px 0 0;
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      background: #fff7ed;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      color: #7c2d12;
+      line-height: 1.5;
+      font-size: 0.94rem;
+    }
+
+    .relationship-note strong {
+      color: #431407;
+    }
+
+    .demo-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 290px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-card);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .demo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-soft);
+      border-color: rgba(37, 99, 235, 0.25);
+    }
+
+    .card-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: var(--commit-white);
+      font-size: 1.3rem;
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+    }
+
+    .icon-blue { background: linear-gradient(135deg, var(--commit-blue), #60a5fa); }
+    .icon-teal { background: linear-gradient(135deg, var(--commit-teal), #2dd4bf); }
+    .icon-purple { background: linear-gradient(135deg, var(--commit-purple), #a78bfa); }
+    .icon-amber { background: linear-gradient(135deg, var(--commit-amber), #fbbf24); }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 780;
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--commit-green);
+    }
+
+    .demo-card h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .demo-card p {
+      color: var(--commit-gray-700);
+      line-height: 1.55;
+      margin: 12px 0 18px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 9px;
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 9px;
+      align-items: start;
+      color: var(--commit-gray-700);
+      font-size: 0.88rem;
+    }
+
+    .feature-list li::before {
+      content: "✓";
+      flex: 0 0 20px;
+      height: 20px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--commit-gray-100);
+      color: var(--commit-blue);
+      font-size: 0.75rem;
+      font-weight: 900;
+    }
+
+    .card-link {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--commit-gray-200);
+      color: var(--commit-blue);
+      font-weight: 820;
+      font-size: 0.92rem;
+    }
+
+    .workflow-strip {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .workflow-step {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .workflow-step strong {
+      display: block;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .workflow-step p {
+      margin: 8px 0 0;
+      color: var(--commit-gray-500);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .footer-panel {
+      margin-top: 34px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: var(--commit-navy);
+      color: var(--commit-white);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .footer-panel h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .footer-panel p {
+      margin: 8px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.5;
+      max-width: 720px;
+    }
+
+    .footer-panel .button {
+      background: var(--commit-white);
+      color: var(--commit-navy);
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        padding: 34px;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-grid,
+      .supporting-grid,
+      .workflow-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: min(100% - 24px, 1180px);
+        padding-top: 20px;
+      }
+
+      .topbar,
+      .section-header,
+      .footer-panel {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding: 26px;
+        border-radius: 24px;
+      }
+
+      .hero-actions,
+      .button {
+        width: 100%;
+      }
+
+      .demo-grid,
+      .supporting-grid,
+      .workflow-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-card.featured {
+        grid-column: span 1;
+      }
+
+      .demo-card {
+        min-height: 310px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar" aria-label="Landing page header">
+      <a class="brand-lockup" href="./index.html" aria-label="Return to landing page">
+        <div class="brand-mark">C</div>
+        <div class="brand-text">
+          <strong>Commit Partnership</strong>
+          <span>Dashboard Demo Hub</span>
+        </div>
+      </a>
+      <div class="topbar-pill">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        GitHub Pages Demo Hub
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div>
+          <div class="eyebrow">Dashboard Demo Suite</div>
+          <h1>One landing page for the current demo and future command center concept.</h1>
+          <p class="hero-summary">
+            This page organizes the current dashboard demo, its related intake and update forms, and the in-progress command center concept. The current dashboard shows the working demo model. The command center concept represents the future version being developed.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="./IT_Dashboard_Demo.html">Open Dashboard Demo →</a>
+            <a class="button button-secondary" href="./command-center-concept-inprogress.html">Preview Command Center Concept</a>
+            <a class="button button-secondary" href="./intake_form.html">Submit Intake</a>
+            <a class="button button-secondary" href="./update_form.html">Update Project</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Demo summary metrics">
+          <div class="metric-card">
+            <span>Current Demo</span>
+            <strong>Dashboard Demo</strong>
+            <p>Working demo for goals, workstreams, KPIs, budget, decisions, evidence, and leadership visibility.</p>
+          </div>
+          <div class="metric-card">
+            <span>Future State</span>
+            <strong>Command Center Concept</strong>
+            <p>In-progress future version for department hubs, rollups, meetings, decisions, and organization-level visibility.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="demo-library-title">
+      <div class="section-header">
+        <div>
+          <h2 id="demo-library-title">Demo library</h2>
+          <p>Each card opens a live HTML file in this GitHub Pages site. The intake and update forms support the dashboard demo. The command center concept is the future-state version in progress.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <a class="demo-card featured" href="./IT_Dashboard_Demo.html">
+          <div class="card-topline">
+            <div class="card-icon icon-blue" aria-hidden="true">⌁</div>
+            <span class="status-badge">Current Demo</span>
+          </div>
+          <h3>IT Dashboard Demo</h3>
+          <p>The current working dashboard demo for goal tracking, project visibility, decisions, evidence, budget, KPIs, and leadership reporting.</p>
+          <ul class="feature-list">
+            <li>Primary demo experience</li>
+            <li>Executive and leadership visibility model</li>
+            <li>Connects work, decisions, KPIs, budget, and evidence</li>
+          </ul>
+          <span class="card-link">Open dashboard demo <span>→</span></span>
+        </a>
+
+        <a class="demo-card future" href="./command-center-concept-inprogress.html">
+          <div class="card-topline">
+            <div class="card-icon icon-amber" aria-hidden="true">◈</div>
+            <span class="status-badge">In Progress</span>
+          </div>
+          <h3>Command Center Concept</h3>
+          <p>The future-state version currently being developed. This is where the broader department hub and org-level command center model is heading.</p>
+          <ul class="feature-list">
+            <li>Future version of the operating model</li>
+            <li>Department hub and rollup concept</li>
+            <li>Designed for goals, meetings, decisions, and performance evidence</li>
+          </ul>
+          <span class="card-link">Preview future concept <span>→</span></span>
+        </a>
+      </div>
+
+      <div class="relationship-note">
+        <strong>Relationship between files:</strong> The intake form and update form are supporting workflows connected to the current IT Dashboard Demo. They represent how new work enters the dashboard and how progress updates keep the dashboard current.
+      </div>
+
+      <div class="supporting-grid">
+        <a class="demo-card" href="./intake_form.html">
+          <div class="card-topline">
+            <div class="card-icon icon-teal" aria-hidden="true">＋</div>
+            <span class="status-badge">Related Form</span>
+          </div>
+          <h3>Dashboard Intake Form</h3>
+          <p>A structured intake experience for capturing new work requests, business context, priority, and alignment to strategic goals.</p>
+          <ul class="feature-list">
+            <li>Feeds new work into the dashboard model</li>
+            <li>Captures priority, owner, and business context</li>
+            <li>Creates the foundation for workflow routing</li>
+          </ul>
+          <span class="card-link">Open intake form <span>→</span></span>
+        </a>
+
+        <a class="demo-card" href="./update_form.html">
+          <div class="card-topline">
+            <div class="card-icon icon-purple" aria-hidden="true">↻</div>
+            <span class="status-badge">Related Form</span>
+          </div>
+          <h3>Dashboard Update Form</h3>
+          <p>A lightweight update path for keeping milestones, status, blockers, decisions, and evidence current without extra review prep.</p>
+          <ul class="feature-list">
+            <li>Feeds progress updates back into the dashboard</li>
+            <li>Captures blockers, decisions, and evidence</li>
+            <li>Supports leadership updates and performance review prep</li>
+          </ul>
+          <span class="card-link">Open update form <span>→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section aria-labelledby="operating-model-title">
+      <div class="section-header">
+        <div>
+          <h2 id="operating-model-title">How the files fit together</h2>
+          <p>The current dashboard demo is the working proof of concept. The intake and update forms show how dashboard data can be captured. The command center concept shows the future version of the full operating layer.</p>
+        </div>
+      </div>
+
+      <div class="workflow-strip">
+        <div class="workflow-step">
+          <strong>1. Open the dashboard</strong>
+          <p>Use the IT Dashboard Demo as the current working leadership and operating view.</p>
+        </div>
+        <div class="workflow-step">
+          <strong>2. Submit intake</strong>
+          <p>Use the intake form to show how new work requests can enter the dashboard model.</p>
+        </div>
+        <div class="workflow-step">
+          <strong>3. Update progress</strong>
+          <p>Use the update form to show how status, blockers, decisions, and evidence stay current.</p>
+        </div>
+        <div class="workflow-step">
+          <strong>4. Preview future state</strong>
+          <p>Use the command center concept to show where the dashboard model is evolving next.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer-panel" aria-label="Implementation note">
+      <div>
+        <h2>Ready for GitHub Pages deployment</h2>
+        <p>Save this file as <strong>index.html</strong> in the same folder as <strong>IT_Dashboard_Demo.html</strong>, <strong>intake_form.html</strong>, <strong>update_form.html</strong>, and <strong>command-center-concept-inprogress.html</strong>. The relative links will work when published from the existing GitHub Pages repo.</p>
+      </div>
+      <a class="button" href="./IT_Dashboard_Demo.html">Launch Dashboard Demo</a>
+    </section>
+  </main>
+</body>
+</html>
